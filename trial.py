@@ -21,18 +21,11 @@ class moveableObs(object):
 
 	def handleKeyPress(self):
 		'''
-		Decides whether the object can be moved or not.
-		If yes, also check whether the object is going to a goal.
-			If it is, set self.ongoal=1
-			If no, set self.ongoal=0
-		Based on keypress, changes coordinates of calling object.
-		Does not update position on GUI. That is done by updatePos.
-		However, clears current position of calling object from the GUI by calling clearCurrPos().
+		sets target based on keypress, and calls moveTo which takes further decision/action.
 		'''
 		currCol=self.x/50
 		currRow=self.y/50
 		horizontal=1
-		print('currRow:',currRow,'	currCol:',currCol)
 		
 		if event.key==pygame.K_LEFT:
 			targetCol=currCol-1
@@ -56,14 +49,22 @@ class moveableObs(object):
 			targetRow=currRow+1
 			offset=50
 
-		print('targetRow:',targetRow,'	targetCol:',targetCol)
 		return self.moveTo(targetRow,targetCol,currRow,currCol,offset,horizontal)
 			
 
 	def moveTo(self,targetRow,targetCol,currRow,currCol,offset,horizontal):
+		'''
+		Decides whether the object can be moved or not.
+		If yes, also check whether the object is going to a goal.
+			If it is, set self.ongoal=1
+			If no, set self.ongoal=0
+		Based on keypress, changes coordinates of calling object.
+		Does not update position on GUI. That is done by updatePos.
+		However, clears current position of calling object from the GUI by calling clearCurrPos().
+		'''
+
 		currentGrid=gameMap[currRow][currCol]
 		target=gameMap[targetRow][targetCol]
-		print('target:',target)
 
 		if(target==-1):
 			#target is a wall
